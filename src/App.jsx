@@ -5,6 +5,9 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
+import Footer from "./components/Footer";
+
+import "./App.css"
 
 const routes =createBrowserRouter([
    {
@@ -49,7 +52,12 @@ function App(){
 
       for(let i = 0; i < newCart.length; i++){
           if(newCart[i].product.id === product.id){
-              newCart[i].quantity = newCart[i].quantity + quantity;
+              if(quantity < newCart[i].quantity)
+              newCart[i].quantity = quantity;
+
+              else
+              newCart[i].quantity = quantity;
+
               productFound = true;
               break;
           }
@@ -66,10 +74,14 @@ function App(){
   }
 
     return (
-      <>
-      <Navbar cart = {cart}/>
-      <Outlet context = {{cart, setCart, handleAddToCart}}/>
-      </>
+      <div className = "app">
+        <Navbar cart = {cart}/>
+        
+        <main className = "main-content">
+            <Outlet context = {{cart, setCart, handleAddToCart}}/>
+        </main>
+        <Footer/>
+      </div>
     )
 }
 

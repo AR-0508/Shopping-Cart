@@ -33,7 +33,7 @@ function ProductCard({product}){
                 
     <div className = "price">
     <p> Price : </p>
-     <p>{product.price}</p>
+    <p>${product.price}</p>
     </div>
 
     <div className = "quantity-control">

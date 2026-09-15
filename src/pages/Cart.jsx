@@ -1,7 +1,19 @@
 import {Link ,useOutletContext} from "react-router-dom";
+import {useState, useEffect} from "react";
 
 function Cart(){
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, []);
+
     const {cart, setCart} = useOutletContext();
+
     let subTotal = cart.reduce((accumulator, item) => {
        return accumulator + (item.product.price * item.quantity)
     }, 0);
@@ -48,7 +60,7 @@ function Cart(){
             cart[i].quantity = cart[i].quantity - 1;
 
             if(cart[i].quantity === 0){
-            handleDeleteCartItem(cart[i]);
+            handleDeleteCartItem(cart[i].product.id);
             continue;
             }
             
@@ -59,6 +71,15 @@ function Cart(){
         }
 
         setCart(newCart);
+    }
+
+    if(loading){
+        return(
+        <div className="loading-message">
+            <div className="spinner"></div>
+            <h2>Loading Cart Info...</h2>
+        </div>
+        )
     }
 
     return(
@@ -90,7 +111,7 @@ function Cart(){
                         </div>
 
                         <button type = "button" className = "del-cart-item" onClick = {() => handleDeleteCartItem(item.product.id)}>X</button>
-                        <p>{item.product.price * item.quantity}</p>
+                        <p>${Number((item.product.price * item.quantity).toFixed(2))}</p>
                     </div> 
                     
                 ))}
@@ -102,7 +123,7 @@ function Cart(){
 
                     <div className = "cart-subtotal">
                         <p>Subtotal</p>
-                        <p>{subTotal}</p>
+                        <p>${subTotal}</p>
                     </div>
 
                     <div className = "shipping">
@@ -114,7 +135,7 @@ function Cart(){
 
                     <div className = "total">
                         <p>Total</p>
-                        <p>{subTotal}</p>
+                        <p>${subTotal}</p>
                     </div>
 
                     <button type = "button" onClick = {() => alert("Checking you out Now!")}>Checkout</button>
