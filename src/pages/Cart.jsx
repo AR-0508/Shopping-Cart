@@ -2,8 +2,12 @@ import {Link ,useOutletContext} from "react-router-dom";
 
 function Cart(){
     const {cart, setCart} = useOutletContext();
-    let subTotal = 0;
-    
+    let subTotal = cart.reduce((accumulator, item) => {
+       return accumulator + (item.product.price * item.quantity)
+    }, 0);
+
+    subTotal =  Number(subTotal.toFixed(2));
+
     function handleDeleteCartItem(id){
         let newCart = [];
         for(let i = 0; i < cart.length; i++){
@@ -40,9 +44,12 @@ function Cart(){
         let newCart = [];
 
         for(let i = 0; i < cart.length; i++){
-            if(cart[i].quantity > 1){
-                if(cart[i].product.id === id)
-                cart[i].quantity = cart[i].quantity - 1;
+            if(cart[i].product.id === id)
+            cart[i].quantity = cart[i].quantity - 1;
+
+            if(cart[i].quantity === 0){
+            handleDeleteCartItem(cart[i]);
+            continue;
             }
             
             newCart.push({
@@ -83,9 +90,7 @@ function Cart(){
                         </div>
 
                         <button type = "button" className = "del-cart-item" onClick = {() => handleDeleteCartItem(item.product.id)}>X</button>
-
                         <p>{item.product.price * item.quantity}</p>
-
                     </div> 
                     
                 ))}
@@ -97,8 +102,22 @@ function Cart(){
 
                     <div className = "cart-subtotal">
                         <p>Subtotal</p>
-                        <p> </p>
+                        <p>{subTotal}</p>
                     </div>
+
+                    <div className = "shipping">
+                        <p>Estimated Shipping</p>
+                        <p>Free</p>
+                    </div>
+
+                    <hr></hr>
+
+                    <div className = "total">
+                        <p>Total</p>
+                        <p>{subTotal}</p>
+                    </div>
+
+                    <button type = "button" onClick = {() => alert("Checking you out Now!")}>Checkout</button>
                 </div>
             </div>
     )
