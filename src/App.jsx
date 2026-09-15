@@ -1,6 +1,6 @@
 import {useState} from "react";
-import { createBrowserRouter} from "react-router-dom";
-import { Outlet } from "react-router-dom";
+import {createBrowserRouter} from "react-router-dom";
+import {Outlet} from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
@@ -28,16 +28,49 @@ const routes =createBrowserRouter([
   ]);
 
 function App(){ 
-  const [cart, setCart] = useState("");
+  const [cart, setCart] = useState([]);
 
-  
+  function handleAddToCart(product, quantity){
+      if(cart.length === 0){
+          let newCart = [
+              ...cart,
+              {
+                  product: product,
+                  quantity: quantity
+              }
+          ];
+
+          setCart(newCart);
+          return;
+      }
+
+      let productFound = false;
+      let newCart = [...cart];
+
+      for(let i = 0; i < newCart.length; i++){
+          if(newCart[i].product.id === product.id){
+              newCart[i].quantity = newCart[i].quantity + quantity;
+              productFound = true;
+              break;
+          }
+      }
+
+      if(!productFound){
+          newCart.push({
+              product: product,
+              quantity: quantity
+          });
+      }
+
+      setCart(newCart);
+  }
+
     return (
       <>
       <Navbar/>
-      <Outlet/>
+      <Outlet context = {{cart, setCart, handleAddToCart}}/>
       </>
     )
 }
 
-export default App
 export {routes};

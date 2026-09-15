@@ -34,10 +34,9 @@ function Shop(){
 
     return (
         loading ? 
-        <h1>...Loading</h1>:
+        <h1>Locating Catalogs</h1>:
         error ? 
         <h1>{error}</h1>:
-
         <div>
             <h1>Featured Catalogue</h1>
             <h2>Select your quantity and add items directly to your cart.</h2>

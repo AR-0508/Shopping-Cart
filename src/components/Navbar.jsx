@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function Navbar(){
+function Navbar({cart}){
     return(
         <div className = "navbar">
             <nav>ShopHub</nav>

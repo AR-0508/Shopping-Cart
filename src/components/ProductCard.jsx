@@ -1,7 +1,9 @@
 import {useState} from "react";
+import { useOutletContext } from "react-router-dom";
 
 function ProductCard({product}){
     const [quantity, setQuantity] = useState(1);
+    const {handleAddToCart} = useOutletContext();
 
     function handleAddQuantity(){
         setQuantity(quantity =>  quantity + 1);
@@ -40,7 +42,7 @@ function ProductCard({product}){
         <button className = "increment" onClick = {handleAddQuantity}>+</button>
     </div>
 
-    <button type = "button" onClick= {handleAddToCart}>Add to Cart</button>
+    <button type = "button" onClick = {() => handleAddToCart(product, quantity)}>Add to Cart</button>
     </>
     )
 }
