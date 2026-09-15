@@ -1,4 +1,5 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {useState} from "react";
+import { createBrowserRouter} from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -26,7 +27,9 @@ const routes =createBrowserRouter([
     }
   ]);
 
-function App(){
+function App(){ 
+  const [cart, setCart] = useState("");
+
   
     return (
       <>
@@ -36,5 +39,5 @@ function App(){
     )
 }
 
-export default App;
+export default App
 export {routes};
